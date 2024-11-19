@@ -1,0 +1,134 @@
+{
+  "project_info": {
+    "project_number": "140124232414",
+    "project_id": "impeccable-home-a9123",
+    "storage_bucket": "impeccable-home-a9123.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140124232414:android:d4553feaed2753566f004f",
+        "android_client_info": {
+          "package_name": "com.example.impeccablehome_customer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "140124232414-nio245jtoeskdigdfbod9c2kqsh7itoe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.impeccablehome_customer",
+            "certificate_hash": "d202e94f42b3b7c0b10e6293c9b87f9d8806cc42"
+          }
+        },
+        {
+          "client_id": "140124232414-vkv6b9otgld5fm5bshkitq27fi98p7sa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvDa-DXiAfCHOS4iaJkVuJ7RVqHh5g97c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "140124232414-vkv6b9otgld5fm5bshkitq27fi98p7sa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "140124232414-3i7eoernn37vu37i1p15un329dmcnl2a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.impeccablehomeHelper"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140124232414:android:7d2185cee4dbb72a6f004f",
+        "android_client_info": {
+          "package_name": "com.example.impeccablehome_helper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "140124232414-vkv6b9otgld5fm5bshkitq27fi98p7sa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvDa-DXiAfCHOS4iaJkVuJ7RVqHh5g97c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "140124232414-vkv6b9otgld5fm5bshkitq27fi98p7sa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "140124232414-3i7eoernn37vu37i1p15un329dmcnl2a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.impeccablehomeHelper"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140124232414:android:7a4e2e6793124f0f6f004f",
+        "android_client_info": {
+          "package_name": "com.example.phoneauth_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "140124232414-88fsf9kf424ajn5v0qda696mbke92vst.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.phoneauth_firebase",
+            "certificate_hash": "d202e94f42b3b7c0b10e6293c9b87f9d8806cc42"
+          }
+        },
+        {
+          "client_id": "140124232414-vkv6b9otgld5fm5bshkitq27fi98p7sa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvDa-DXiAfCHOS4iaJkVuJ7RVqHh5g97c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "140124232414-vkv6b9otgld5fm5bshkitq27fi98p7sa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "140124232414-3i7eoernn37vu37i1p15un329dmcnl2a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.impeccablehomeHelper"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

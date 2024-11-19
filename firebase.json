@@ -1,0 +1,28 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "impeccable-home-a9123",
+          "appId": "1:140124232414:android:7d2185cee4dbb72a6f004f",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "impeccable-home-a9123",
+          "configurations": {
+            "android": "1:140124232414:android:7d2185cee4dbb72a6f004f",
+            "ios": "1:140124232414:ios:5dbb120e86cbb40d6f004f",
+            "web": "1:140124232414:web:cc76046d978a16f46f004f",
+            "windows": "1:140124232414:web:4473a11c0d49866c6f004f"
+          }
+        }
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
+}
