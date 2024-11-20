@@ -6,6 +6,8 @@ import 'package:impeccablehome_helper/components/dropdown_field.dart';
 import 'package:impeccablehome_helper/components/onboarding_header.dart';
 import 'package:impeccablehome_helper/components/small_text.dart';
 import 'package:impeccablehome_helper/components/text_input_field.dart';
+import 'package:impeccablehome_helper/resources/authenticatiom_method.dart';
+import 'package:provider/provider.dart';
 
 class InfoProvidingScreen extends StatefulWidget {
   const InfoProvidingScreen({super.key});
@@ -15,13 +17,14 @@ class InfoProvidingScreen extends StatefulWidget {
 }
 
 class _InfoProvidingScreenState extends State<InfoProvidingScreen> {
-  @override
-  Widget build(BuildContext context) {
-    final TextEditingController provinceController = TextEditingController();
+  final TextEditingController provinceController = TextEditingController();
     final TextEditingController serviceTypeController = TextEditingController();
     final TextEditingController firstNameController = TextEditingController();
     final TextEditingController lastNameController = TextEditingController();
     final TextEditingController phoneController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -67,7 +70,7 @@ class _InfoProvidingScreenState extends State<InfoProvidingScreen> {
                       Expanded(
                         child: TextInputField(
                             controller: firstNameController,
-                            hintText: "Enter your first name"),
+                            hintText: "First name"),
                       ),
                       SizedBox(
                         width: 16,
@@ -75,7 +78,7 @@ class _InfoProvidingScreenState extends State<InfoProvidingScreen> {
                       Expanded(
                         child: TextInputField(
                             controller: lastNameController,
-                            hintText: "Enter your last name"),
+                            hintText: "Last name"),
                       ),
                     ],
                   ),
@@ -88,7 +91,9 @@ class _InfoProvidingScreenState extends State<InfoProvidingScreen> {
                   SizedBox(
                     height: 40,
                   ),
-                  CustomButton(title: "Next", onTap: (){}),
+                  CustomButton(title: "Next", onTap: (){
+                    provideInfo();
+                  }),
                 ],
               ),
             ),
@@ -96,6 +101,23 @@ class _InfoProvidingScreenState extends State<InfoProvidingScreen> {
         ),
       )),
     );
+  }
+  void provideInfo() {
+    final authMethods =
+        Provider.of<AuthenticationMethods>(context, listen: false);
+    String province = provinceController.text.trim();
+    String serviceType = serviceTypeController.text.trim();
+    String firstName=firstNameController.text.trim();
+    String lastName=lastNameController.text.trim();
+    String phoneNumber=phoneController.text.trim();
+    authMethods.providePersonalInfoForProfile(
+      context: context, 
+      province: province, 
+      serviceType: serviceType, 
+      firstName: firstName, 
+      lastName: lastName,
+      phoneNumber: "+84$phoneNumber",
+      );
   }
 }
 

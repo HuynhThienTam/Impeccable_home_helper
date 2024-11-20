@@ -7,9 +7,12 @@ import 'package:impeccablehome_helper/components/photo_selector.dart';
 import 'package:impeccablehome_helper/components/photo_selector_dialog.dart';
 import 'package:impeccablehome_helper/components/small_text.dart';
 import 'package:impeccablehome_helper/components/text_input_field.dart';
+import 'package:impeccablehome_helper/resources/authenticatiom_method.dart';
 import 'package:impeccablehome_helper/utils/color_themes.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+
+import 'package:provider/provider.dart';
 
 class IdProvidingScreen extends StatefulWidget {
   const IdProvidingScreen({super.key});
@@ -22,6 +25,8 @@ class _IdProvidingScreenState extends State<IdProvidingScreen> {
   File? _image;
   File? _frontIdCardImage;
   File? _backIdCardImage;
+  final TextEditingController idCardNumberController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
   String? selectedOption;
   final ImagePicker _picker =
       ImagePicker(); // Create an instance of ImagePicker
@@ -82,8 +87,6 @@ class _IdProvidingScreenState extends State<IdProvidingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController idCardNumberController =TextEditingController();
-    final TextEditingController addressController =TextEditingController();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -234,7 +237,7 @@ class _IdProvidingScreenState extends State<IdProvidingScreen> {
                     SizedBox(
                       height: 40,
                     ),
-                    CustomButton(title: "Next", onTap: () {}),
+                    CustomButton(title: "Next", onTap: () {provideInfo();}),
                   ],
                 ),
               ),
@@ -246,5 +249,24 @@ class _IdProvidingScreenState extends State<IdProvidingScreen> {
         ),
       )),
     );
+  }
+
+  void provideInfo() {
+    final authMethods =
+        Provider.of<AuthenticationMethods>(context, listen: false);
+    if (_image != null ||
+        _frontIdCardImage != null ||
+        _backIdCardImage != null) {
+      String idCardNumber = idCardNumberController.text.trim();
+      String houseAddress = addressController.text.trim();
+      authMethods.provideIdentificationForProfile(
+        context: context,
+        profilePic: _image!,
+        idCardFront: _frontIdCardImage!,
+        idCardBack: _backIdCardImage!,
+        idCardNumber: idCardNumber,
+        houseAddress: houseAddress,
+      );
+    }
   }
 }

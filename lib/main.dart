@@ -1,12 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:impeccablehome_helper/auth/auth.dart';
+import 'package:impeccablehome_helper/resources/authenticatiom_method.dart';
 import 'package:impeccablehome_helper/screens/apprroval_waiting_screen.dart';
 import 'package:impeccablehome_helper/screens/ec_providing_screen.dart';
 import 'package:impeccablehome_helper/screens/id_providing_screen.dart';
 import 'package:impeccablehome_helper/screens/info_providing_screen.dart';
 import 'package:impeccablehome_helper/screens/onboarding_screen.dart';
 import 'firebase_options.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,14 +26,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF66CCFF)),
-        useMaterial3: true,
+    return MultiProvider(
+       providers: [
+        ChangeNotifierProvider(create: (_) => AuthenticationMethods()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF66CCFF)),
+          useMaterial3: true,
+        ),
+        home: const AuthGate(),
       ),
-      home: const ApprovalWaitingScreen(),
     );
   }
 }

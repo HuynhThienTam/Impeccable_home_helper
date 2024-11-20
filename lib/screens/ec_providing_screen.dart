@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:impeccablehome_helper/components/custom_button.dart';
 import 'package:impeccablehome_helper/components/dropdown_field.dart';
 import 'package:impeccablehome_helper/components/text_input_field.dart';
+import 'package:impeccablehome_helper/resources/authenticatiom_method.dart';
 import 'package:impeccablehome_helper/utils/color_themes.dart';
+import 'package:provider/provider.dart';
 
 class ECProvidingScreen extends StatefulWidget {
   const ECProvidingScreen({super.key});
@@ -13,14 +15,15 @@ class ECProvidingScreen extends StatefulWidget {
 }
 
 class _ECProvidingScreenState extends State<ECProvidingScreen> {
-  @override
-  Widget build(BuildContext context) {
-    final TextEditingController ecNameController = TextEditingController();
+  final TextEditingController ecNameController = TextEditingController();
     final TextEditingController ecRelationshipController =
         TextEditingController();
     final TextEditingController ecPhoneNumberController =
         TextEditingController();
     final TextEditingController ecAddressController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    
     return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -84,7 +87,7 @@ class _ECProvidingScreenState extends State<ECProvidingScreen> {
                           SizedBox(
                             height: 40,
                           ),
-                          CustomButton(title: "Next", onTap: () {}),
+                          CustomButton(title: "Next", onTap: () {provideInfo();}),
                         ]),
                   ),
                 ],
@@ -92,6 +95,20 @@ class _ECProvidingScreenState extends State<ECProvidingScreen> {
             ),
           ),
         ));
+  }
+  void provideInfo() {
+    final authMethods =
+        Provider.of<AuthenticationMethods>(context, listen: false);
+    String ecName = ecNameController.text.trim();
+    String ecRelationship = ecRelationshipController.text.trim();
+    String ecPhoneNumber=ecPhoneNumberController.text.trim();
+    String ecAddress=ecAddressController.text.trim();
+    authMethods.provideEmergencyContactForProfile(
+      context: context, 
+      emergencyContactName: ecName, 
+      emergencyContactRelationship: ecRelationship, 
+      emergencyContactPhoneNumber: ecPhoneNumber, 
+      emergencyContactAddress: ecAddress);
   }
 }
 

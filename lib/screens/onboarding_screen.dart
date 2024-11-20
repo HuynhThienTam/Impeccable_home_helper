@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:impeccablehome_helper/components/custom_button.dart';
 import 'package:impeccablehome_helper/components/onboarding_header.dart';
+import 'package:impeccablehome_helper/resources/authenticatiom_method.dart';
 import 'package:impeccablehome_helper/utils/color_themes.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -75,7 +76,7 @@ class OnboardingScreen extends StatelessWidget {
                   backgroundColor: skyBlueColor,
                   textColor: Colors.black,
                   onTap: () {
-              
+                    AuthenticationMethods().signInWithGoogle(context: context);
                   }),
             )
           ],
