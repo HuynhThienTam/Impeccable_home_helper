@@ -19,7 +19,7 @@ class OnboardingScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 20,
+              height: 60,
             ),
             OnBoardingHeader(),
             Container(

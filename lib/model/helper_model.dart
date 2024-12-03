@@ -1,5 +1,6 @@
+import 'package:impeccablehome_helper/resources/cloud_firestore_methods.dart';
 
-class HelperModel{
+class HelperModel {
   String firstName;
   String lastName;
   String email;
@@ -8,7 +9,7 @@ class HelperModel{
   String phoneNumber;
   String helperUid;
   String lastLogOutAt;
-  String status;//onl,off
+  String status; // online/offline
   String profilePic;
   String createdAt;
   String idCardFront;
@@ -19,7 +20,10 @@ class HelperModel{
   String emergencyContactRelationship;
   String emergencyContactPhoneNumber;
   String emergencyContactAddress;
-  String isApproved;//Has the profile been approved my admin? yes/no/notsubmitted
+  String
+      isApproved; // Has the profile been approved by admin? yes/no/notsubmitted
+  double ratings; // Average rating score
+
   HelperModel({
     required this.firstName,
     required this.lastName,
@@ -40,9 +44,10 @@ class HelperModel{
     required this.emergencyContactRelationship,
     required this.emergencyContactPhoneNumber,
     required this.emergencyContactAddress,
-    required this.isApproved
+    required this.isApproved,
+    required this.ratings,
   });
-  
+
   factory HelperModel.fromMap(Map<String, dynamic> map) {
     return HelperModel(
       firstName: map['firstName'] ?? '',
@@ -55,7 +60,7 @@ class HelperModel{
       lastLogOutAt: map['lastLogOutAt'] ?? '',
       status: map['status'] ?? '',
       profilePic: map['profilePic'] ?? '',
-      createdAt: map['createdAt']??'', 
+      createdAt: map['createdAt'] ?? '',
       idCardFront: map['idCardFront'] ?? '',
       idCardBack: map['idCardBack'] ?? '',
       idCardNumber: map['idCardNumber'] ?? '',
@@ -65,6 +70,7 @@ class HelperModel{
       emergencyContactPhoneNumber: map['emergencyContactPhoneNumber'] ?? '',
       emergencyContactAddress: map['emergencyContactAddress'] ?? '',
       isApproved: map['isApproved'] ?? '',
+      ratings: (map['ratings'] ?? 0.0).toDouble(),
     );
   }
 
@@ -80,7 +86,7 @@ class HelperModel{
       'lastLogOutAt': lastLogOutAt,
       'status': status,
       'profilePic': profilePic,
-      "createdAt": createdAt,
+      'createdAt': createdAt,
       'idCardFront': idCardFront,
       'idCardBack': idCardBack,
       'idCardNumber': idCardNumber,
@@ -89,7 +95,41 @@ class HelperModel{
       'emergencyContactRelationship': emergencyContactRelationship,
       'emergencyContactPhoneNumber': emergencyContactPhoneNumber,
       'emergencyContactAddress': emergencyContactAddress,
-      'isApproved':isApproved, 
+      'isApproved': isApproved,
+      'ratings': ratings,
     };
+  }
+
+  // Function to retrieve working time from Firestore
+  Future<List<Map<String, String>>> getWorkingTime() async {
+    final workingTimeCollection = CloudFirestoreClass()
+        .firebaseFirestore
+        .collection('helpers')
+        .doc(helperUid)
+        .collection('workingTime');
+
+    final querySnapshot = await workingTimeCollection.get();
+    return querySnapshot.docs
+        .map((doc) => {'day': doc.id, ...doc.data() as Map<String, String>})
+        .toList();
+  }
+
+  // Function to save working time into Firestore
+  Future<void> setWorkingTime(List<Map<String, String>> workingTime) async {
+    final workingTimeCollection = CloudFirestoreClass()
+        .firebaseFirestore
+        .collection('helpers')
+        .doc(helperUid)
+        .collection('workingTime');
+
+    for (var time in workingTime) {
+      final day = time['day']!;
+      final startTime = time['startTime']!;
+      final finishedTime = time['finishedTime']!;
+      await workingTimeCollection.doc(day).set({
+        'startTime': startTime,
+        'finishedTime': finishedTime,
+      });
+    }
   }
 }

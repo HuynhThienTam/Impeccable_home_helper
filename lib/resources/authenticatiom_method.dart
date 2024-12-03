@@ -102,6 +102,7 @@ class AuthenticationMethods extends ChangeNotifier {
             emergencyContactPhoneNumber: '',
             emergencyContactAddress: '',
             isApproved: 'notsubmitted',
+            ratings: 5,
           );
         }
       }
@@ -143,6 +144,7 @@ class AuthenticationMethods extends ChangeNotifier {
           emergencyContactPhoneNumber: '',
           emergencyContactAddress: '',
           isApproved: 'notsubmitted',
+          ratings: 5,
         );
       }
       helperModel.province = province;
