@@ -20,10 +20,10 @@ class HelperModel {
   String emergencyContactRelationship;
   String emergencyContactPhoneNumber;
   String emergencyContactAddress;
-  String
-      isApproved; // Has the profile been approved by admin? yes/no/notsubmitted
+  String isApproved; // Has the profile been approved by admin? yes/no/notsubmitted
   double ratings; // Average rating score
-
+  String gender; // Male/Female/Other
+  String dateOfBirth; // Format: yyyy-MM-dd
   HelperModel({
     required this.firstName,
     required this.lastName,
@@ -46,6 +46,8 @@ class HelperModel {
     required this.emergencyContactAddress,
     required this.isApproved,
     required this.ratings,
+        required this.gender,
+    required this.dateOfBirth,
   });
 
   factory HelperModel.fromMap(Map<String, dynamic> map) {
@@ -71,6 +73,8 @@ class HelperModel {
       emergencyContactAddress: map['emergencyContactAddress'] ?? '',
       isApproved: map['isApproved'] ?? '',
       ratings: (map['ratings'] ?? 0.0).toDouble(),
+            gender: map['gender'] ?? '',
+      dateOfBirth: map['dateOfBirth'] ?? '',
     );
   }
 
@@ -97,6 +101,8 @@ class HelperModel {
       'emergencyContactAddress': emergencyContactAddress,
       'isApproved': isApproved,
       'ratings': ratings,
+            'gender': gender,
+      'dateOfBirth': dateOfBirth,
     };
   }
 

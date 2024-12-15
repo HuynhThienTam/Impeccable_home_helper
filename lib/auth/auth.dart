@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:impeccablehome_helper/layout/screen_layout.dart';
 import 'package:impeccablehome_helper/resources/cloud_firestore_methods.dart';
 import 'package:impeccablehome_helper/screens/apprroval_waiting_screen.dart';
 import 'package:impeccablehome_helper/screens/home_screen.dart';
@@ -49,7 +50,7 @@ class CheckHelperDetailsGate extends StatelessWidget {
           final isApproved = data['isApproved'] as String? ?? 'no';
 
           if (isApproved == 'yes') {
-            return const HomeScreen();
+            return const ScreenLayout(initialIndex: 0,);
           } else {
             return const ApprovalWaitingScreen();
           }

@@ -45,6 +45,8 @@ dependencies:
   pinput: ^5.0.0
   firebase_app_check: ^0.2.2+7
   image_picker: ^1.1.0
+  intl: ^0.20.0
+  country_picker: ^2.0.26
 dev_dependencies:
   flutter_test:
     sdk: flutter

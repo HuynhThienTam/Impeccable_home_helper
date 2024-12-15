@@ -103,6 +103,8 @@ class AuthenticationMethods extends ChangeNotifier {
             emergencyContactAddress: '',
             isApproved: 'notsubmitted',
             ratings: 5,
+            dateOfBirth: '',
+            gender: '',
           );
         }
       }
@@ -145,6 +147,8 @@ class AuthenticationMethods extends ChangeNotifier {
           emergencyContactAddress: '',
           isApproved: 'notsubmitted',
           ratings: 5,
+          dateOfBirth: '',
+          gender: '',
         );
       }
       helperModel.province = province;

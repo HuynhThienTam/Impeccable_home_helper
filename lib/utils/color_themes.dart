@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+const Color lightBlueColor=Color(0xFFC4EFFD);
 const Color skyBlueColor = Color(0xFF66CCFF); 
 const Color oceanBlueColor = Color(0xFF0099CC);  // #0099CC - Ocean Blue
 const Color deepSeaBlueColor = Color(0xFF115577);  // #115577 - Deep Sea Blue
