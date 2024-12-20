@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:impeccablehome_helper/resources/cloud_firestore_methods.dart';
 
 class HelperModel {
@@ -107,18 +108,44 @@ class HelperModel {
   }
 
   // Function to retrieve working time from Firestore
-  Future<List<Map<String, String>>> getWorkingTime() async {
-    final workingTimeCollection = CloudFirestoreClass()
-        .firebaseFirestore
-        .collection('helpers')
-        .doc(helperUid)
-        .collection('workingTime');
+  // Future<List<Map<String, String>>> getWorkingTime() async {
+  //   final workingTimeCollection = CloudFirestoreClass()
+  //       .firebaseFirestore
+  //       .collection('helpers')
+  //       .doc(helperUid)
+  //       .collection('workingTime');
 
+  //   final querySnapshot = await workingTimeCollection.get();
+  //   return querySnapshot.docs
+  //       .map((doc) => {'day': doc.id, ...doc.data() as Map<String, String>})
+  //       .toList();
+  // }
+  Future<List<Map<String, String>>> getWorkingTime() async {
+  final workingTimeCollection = CloudFirestoreClass()
+      .firebaseFirestore
+      .collection('helpers')
+      .doc(helperUid)
+      .collection('workingTime');
+
+  try {
     final querySnapshot = await workingTimeCollection.get();
-    return querySnapshot.docs
-        .map((doc) => {'day': doc.id, ...doc.data() as Map<String, String>})
-        .toList();
+    final workingTimes = querySnapshot.docs.map((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      debugPrint('Fetched working time for ${doc.id}: $data');
+      return {
+        'day': doc.id,
+        'startTime': data['startTime'] as String? ?? '',
+        'finishedTime': data['finishedTime'] as String? ?? '',
+      };
+    }).toList();
+
+    debugPrint('Full fetched workingTime list: $workingTimes');
+    return workingTimes;
+  } catch (e) {
+    debugPrint('Error fetching working times: $e');
+    return [];
   }
+}
 
   // Function to save working time into Firestore
   Future<void> setWorkingTime(List<Map<String, String>> workingTime) async {

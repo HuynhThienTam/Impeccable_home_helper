@@ -25,7 +25,7 @@ class AuthenticationMethods extends ChangeNotifier {
   File get idCardBack => _idCardBack!;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
-  CloudFirestoreClass cloudFirestoreClass = CloudFirestoreClass();
+  //CloudFirestoreClass cloudFirestoreClass = CloudFirestoreClass();
   // signInWithGoogle()async{
   //   final GoogleSignInAccount? gUser=await GoogleSignIn().signIn();
   //   final GoogleSignInAuthentication gAuth=await gUser!.authentication;

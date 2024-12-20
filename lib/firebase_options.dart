@@ -25,9 +25,15 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
-        return windows;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -51,35 +57,15 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBvDa-DXiAfCHOS4iaJkVuJ7RVqHh5g97c',
-    appId: '1:140124232414:android:7d2185cee4dbb72a6f004f',
+    appId: '1:140124232414:android:d6bd3a30893d32456f004f',
     messagingSenderId: '140124232414',
     projectId: 'impeccable-home-a9123',
-    storageBucket: 'impeccable-home-a9123.appspot.com',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAb2DpMP4wd0OwwlJPEKBJ3Xd5Ac5dy9U4',
-    appId: '1:140124232414:ios:824b8084f8b44fa16f004f',
-    messagingSenderId: '140124232414',
-    projectId: 'impeccable-home-a9123',
-    storageBucket: 'impeccable-home-a9123.appspot.com',
-    androidClientId: '140124232414-88fsf9kf424ajn5v0qda696mbke92vst.apps.googleusercontent.com',
-    iosClientId: '140124232414-3i7eoernn37vu37i1p15un329dmcnl2a.apps.googleusercontent.com',
-    iosBundleId: 'com.example.impeccablehomeHelper',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyD7zLEE7XWZPFRNuU_EWAV84iMokV62WF4',
-    appId: '1:140124232414:web:4473a11c0d49866c6f004f',
-    messagingSenderId: '140124232414',
-    projectId: 'impeccable-home-a9123',
-    authDomain: 'impeccable-home-a9123.firebaseapp.com',
     storageBucket: 'impeccable-home-a9123.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAb2DpMP4wd0OwwlJPEKBJ3Xd5Ac5dy9U4',
-    appId: '1:140124232414:ios:5dbb120e86cbb40d6f004f',
+    appId: '1:140124232414:ios:e911cfa5d17312fc6f004f',
     messagingSenderId: '140124232414',
     projectId: 'impeccable-home-a9123',
     storageBucket: 'impeccable-home-a9123.appspot.com',
@@ -87,5 +73,4 @@ class DefaultFirebaseOptions {
     iosClientId: '140124232414-3i7eoernn37vu37i1p15un329dmcnl2a.apps.googleusercontent.com',
     iosBundleId: 'com.example.impeccablehomeHelper',
   );
-
 }
