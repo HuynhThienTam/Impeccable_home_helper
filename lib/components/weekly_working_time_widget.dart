@@ -23,7 +23,7 @@ class _WeeklyWorkingTimeWidgetState extends State<WeeklyWorkingTimeWidget> {
   TimeOfDay? _selectedStartTime;
   TimeOfDay? _selectedEndTime;
   List<Map<String, String>> workingTime = [];
-
+  bool isLoading = true; // State to track loading
   @override
   void initState() {
     super.initState();
@@ -31,10 +31,19 @@ class _WeeklyWorkingTimeWidgetState extends State<WeeklyWorkingTimeWidget> {
   }
 
   Future<void> _fetchWorkingTime() async {
-    final fetchedWorkingTime = await widget.helperModel.getWorkingTime();
-    setState(() {
-      workingTime = fetchedWorkingTime;
-    });
+    try {
+      final fetchedWorkingTime = await widget.helperModel.getWorkingTime();
+      setState(() {
+        workingTime = fetchedWorkingTime;
+      });
+    } catch (e) {
+      // Handle errors (optional)
+      print('Error fetching helper: $e');
+    } finally {
+      setState(() {
+        isLoading = false; // Stop loading once data is fetched
+      });
+    }
   }
 
   void _showTimePicker(BuildContext context, bool isStartTime,
@@ -190,24 +199,24 @@ class _WeeklyWorkingTimeWidgetState extends State<WeeklyWorkingTimeWidget> {
   //   await widget.helperModel.setWorkingTime(workingTime);
   // }
   void _deleteData(String day) async {
-  setState(() {
-    workingTime.removeWhere((entry) => entry['day'] == day);
-  });
+    setState(() {
+      workingTime.removeWhere((entry) => entry['day'] == day);
+    });
 
-  try {
-    final workingTimeCollection = CloudFirestoreClass()
-        .firebaseFirestore
-        .collection('helpers')
-        .doc(widget.helperModel.helperUid)
-        .collection('workingTime');
+    try {
+      final workingTimeCollection = CloudFirestoreClass()
+          .firebaseFirestore
+          .collection('helpers')
+          .doc(widget.helperModel.helperUid)
+          .collection('workingTime');
 
-    // Delete the document for the specific day
-    await workingTimeCollection.doc(day).delete();
-    debugPrint('Deleted day "$day" from Firestore successfully.');
-  } catch (e) {
-    debugPrint('Error deleting day "$day" from Firestore: $e');
+      // Delete the document for the specific day
+      await workingTimeCollection.doc(day).delete();
+      debugPrint('Deleted day "$day" from Firestore successfully.');
+    } catch (e) {
+      debugPrint('Error deleting day "$day" from Firestore: $e');
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -231,72 +240,76 @@ class _WeeklyWorkingTimeWidgetState extends State<WeeklyWorkingTimeWidget> {
       'Sunday': 'Sun',
     };
 
-    return Column(
-      children: daysOfWeek.map((day) {
-        final dataForDay = workingTime.firstWhere(
-          (entry) => entry['day'] == day,
-          orElse: () => {},
-        );
+    return isLoading
+        ? Center(
+            child: CircularProgressIndicator(), // Show loading indicator
+          )
+        : Column(
+            children: daysOfWeek.map((day) {
+              final dataForDay = workingTime.firstWhere(
+                (entry) => entry['day'] == day,
+                orElse: () => {},
+              );
 
-        final hasData = dataForDay.isNotEmpty;
+              final hasData = dataForDay.isNotEmpty;
 
-        return Container(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          margin: const EdgeInsets.symmetric(),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                width: screenWidth * (4 / 25),
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  dayAbbreviations[day]!,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: hasData
-                        ? const Color(0xFFFFA500)
-                        : const Color(0xFFC0C0C0),
-                  ),
-                ),
-              ),
-              Container(
-                width: screenWidth * (1 / 4),
-                child: Text(
-                  hasData
-                      ? "${dataForDay['startTime']} to ${dataForDay['finishedTime']}"
-                      : "Not working",
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              Row(
-                children: [
-                  SmallButton(
-                    title: hasData ? "Edit" : "Add",
-                    textColor: Colors.white,
-                    backgroundColor: crimsonRedColor,
-                    onTap: () => _showDialog(day,
-                        existingData: hasData ? dataForDay : null),
-                  ),
-                  const SizedBox(width: 8),
-                  if (hasData)
-                    SmallButton(
-                      title: "Delete",
-                      textColor: Colors.white,
-                      backgroundColor: crimsonRedColor,
-                      onTap: () => _deleteData(day),
+              return Container(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                margin: const EdgeInsets.symmetric(),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: screenWidth * (4 / 25),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        dayAbbreviations[day]!,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: hasData
+                              ? const Color(0xFFFFA500)
+                              : const Color(0xFFC0C0C0),
+                        ),
+                      ),
                     ),
-                ],
-              ),
-            ],
-          ),
-        );
-      }).toList(),
-    );
+                    Container(
+                      width: screenWidth * (1 / 4),
+                      child: Text(
+                        hasData
+                            ? "${dataForDay['startTime']} to ${dataForDay['finishedTime']}"
+                            : "Not working",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        SmallButton(
+                          title: hasData ? "Edit" : "Add",
+                          textColor: Colors.white,
+                          backgroundColor: crimsonRedColor,
+                          onTap: () => _showDialog(day,
+                              existingData: hasData ? dataForDay : null),
+                        ),
+                        const SizedBox(width: 8),
+                        if (hasData)
+                          SmallButton(
+                            title: "Delete",
+                            textColor: Colors.white,
+                            backgroundColor: crimsonRedColor,
+                            onTap: () => _deleteData(day),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          );
   }
 }
            
