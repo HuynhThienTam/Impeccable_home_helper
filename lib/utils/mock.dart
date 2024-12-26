@@ -339,7 +339,7 @@ List<NotificationModel> mockNotifications = [
     createdAt: DateTime.now().subtract(Duration(hours: 2)),
     content: 'We will have a scheduled maintenance tomorrow from 1 AM to 3 AM. We sincerely apologize for this inconvenience',
     type: "serviceUpdate",
-    status: "notYetOpened", // Example status
+    isRead: false, // Example status
   ),
   NotificationModel(
     title: 'Your booking #12345 has been confirmed',
@@ -347,8 +347,7 @@ List<NotificationModel> mockNotifications = [
     createdAt: DateTime.now().subtract(Duration(days: 2)),
     content: 'Your booking #12345 has been confirmed.',
     type: "inform",
-    bookingNumber: '12345',
-    status: "opened", // Example status
+    isRead: true, // Example status
   ),
   NotificationModel(
     title: 'Unusual login attempt detected.',
@@ -356,6 +355,6 @@ List<NotificationModel> mockNotifications = [
     createdAt: DateTime.now().subtract(Duration(minutes: 30)),
     content: 'Unusual login attempt detected. Please verify your account.',
     type: "warning",
-    status: "notYetOpened", // Example status
+    isRead: true, // Example status
   ),
 ];

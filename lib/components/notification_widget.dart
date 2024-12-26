@@ -5,8 +5,8 @@ import 'package:impeccablehome_helper/utils/color_themes.dart';
 
 class NotificationWidget extends StatelessWidget {
   final NotificationModel notification;
-
-  const NotificationWidget({Key? key, required this.notification})
+  final VoidCallback onTap;
+  const NotificationWidget({Key? key, required this.notification, required this.onTap})
       : super(key: key);
 
   String _getTimeText(DateTime createdAt) {
@@ -28,19 +28,10 @@ class NotificationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // Navigate to NotificationDetailScreen
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>
-                NotificationDetailScreen(notification: notification),
-          ),
-        );
-      },
+      onTap: onTap,
       child: Container(
         padding: EdgeInsets.all(16.0),
-        decoration: notification.status == "opened"
+        decoration: notification.isRead==true
             ? BoxDecoration(
                 border: Border.all(
                   color: lightGrayColor, // Silver gray border color

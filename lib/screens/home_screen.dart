@@ -11,7 +11,6 @@ import 'package:impeccablehome_helper/components/review_widget.dart';
 import 'package:impeccablehome_helper/components/small_button.dart';
 import 'package:impeccablehome_helper/components/weekly_working_time_widget.dart';
 import 'package:impeccablehome_helper/model/helper_model.dart';
-import 'package:impeccablehome_helper/resources/helper_details_provider.dart';
 import 'package:impeccablehome_helper/resources/helper_services.dart';
 import 'package:impeccablehome_helper/utils/color_themes.dart';
 import 'package:impeccablehome_helper/utils/mock.dart';
