@@ -5,21 +5,59 @@ import 'package:impeccablehome_helper/components/custom_button.dart';
 import 'package:impeccablehome_helper/components/custom_button_main.dart';
 import 'package:impeccablehome_helper/components/process_widget.dart';
 import 'package:impeccablehome_helper/model/booking_model.dart';
+import 'package:impeccablehome_helper/model/user_model.dart';
+import 'package:impeccablehome_helper/resources/booking_method.dart';
+import 'package:impeccablehome_helper/resources/user_services.dart';
 import 'package:impeccablehome_helper/utils/color_themes.dart';
+import 'package:provider/provider.dart';
 
 class BookingDetailsScreen extends StatefulWidget {
   final BookingModel booking;
-  const BookingDetailsScreen({super.key, required this.booking});
+  const BookingDetailsScreen({
+    super.key,
+    required this.booking,
+  });
 
   @override
   State<BookingDetailsScreen> createState() => _BookingDetailsScreenState();
 }
 
 class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
+  late int statusNumber;
+  UserModel? userModel;
+  bool isLoading = true; // State to track
+  final UserService userService = UserService();
+  void initState() {
+    super.initState();
+    // Initialize statusNumber with the booking status when the widget is created
+    _fetchUser();
+    statusNumber = int.parse(widget.booking.status);
+  }
+
+  Future<void> _fetchUser() async {
+    try {
+      final fetchedUser =
+          await userService.fetchUserDetails(widget.booking.customerUid);
+
+      if (fetchedUser != null) {
+        setState(() {
+          userModel = fetchedUser;
+        });
+      }
+    } catch (e) {
+      // Handle errors (optional)
+      print('Error fetching helper: $e');
+    } finally {
+      setState(() {
+        isLoading = false; // Stop loading once data is fetched
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final bookingMethods = Provider.of<BookingMethods>(context);
     final screenWidth = MediaQuery.of(context).size.width;
-    int statusNumber = int.parse(widget.booking.status);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -36,14 +74,15 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                   children: [
                     CustomBackButton(color: Colors.blue),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * (1 / 6),
+                      width: MediaQuery.of(context).size.width * (1 / 12),
                     ),
                     Text(
-                      "Booking no #${widget.booking.bookingNumber}",
+                      "Booking no \n#${widget.booking.bookingNumber}",
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                           color: Colors.black),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
@@ -175,7 +214,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                       ),
                       Text(
                         widget.booking.location != ""
-                            ? widget.booking.location
+                            ? widget.booking.note
                             : "No note added",
                         style: TextStyle(
                             color: oceanBlueColor,
@@ -186,20 +225,22 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                         height: 20,
                       ),
                       Text(
-                        "Domestic worker",
+                        "Customer",
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
                         ),
                       ),
-                      Text(
-                        widget.booking.helperName,
-                        style: TextStyle(
-                            color: oceanBlueColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400),
-                      ),
+                      isLoading
+                          ? Container()
+                          : Text(
+                              userModel!.name,
+                              style: TextStyle(
+                                  color: oceanBlueColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400),
+                            ),
                       SizedBox(
                         height: 20,
                       ),
@@ -285,7 +326,15 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                   : (statusNumber == 1)
                                       ? "Arrived"
                                       : "Finished",
-                              onTap: () {},
+                              onTap: () async {
+                                int nextStatus = statusNumber + 1;
+                                await bookingMethods.updateBookingStatus(
+                                    widget.booking.bookingNumber,
+                                    nextStatus.toString());
+                                setState(() {
+                                  statusNumber = nextStatus;
+                                });
+                              },
                               textColor: Colors.black,
                               backgroundColor: orangeColor,
                             ),
@@ -302,7 +351,15 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                               width: 130,
                               child: CustomButton(
                                 title: "Cancel",
-                                onTap: () {},
+                                onTap: () async {
+                                  int nextStatus = -2;
+                                  await bookingMethods.updateBookingStatus(
+                                      widget.booking.bookingNumber,
+                                      nextStatus.toString());
+                                  setState(() {
+                                    statusNumber = nextStatus;
+                                  });
+                                },
                                 textColor: Colors.white,
                                 backgroundColor: silverGrayColor,
                               ),

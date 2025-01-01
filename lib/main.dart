@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:impeccablehome_helper/auth/auth.dart';
 import 'package:impeccablehome_helper/resources/authenticatiom_method.dart';
+import 'package:impeccablehome_helper/resources/booking_method.dart';
 import 'package:impeccablehome_helper/screens/apprroval_waiting_screen.dart';
 import 'package:impeccablehome_helper/screens/ec_providing_screen.dart';
 import 'package:impeccablehome_helper/screens/id_providing_screen.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
        providers: [
         ChangeNotifierProvider(create: (_) => AuthenticationMethods()),
+        ChangeNotifierProvider(create:(_)=>BookingMethods()),
         // ChangeNotifierProvider(create: (_) => HelperDetailsProvider()),
       ],
       child: MaterialApp(

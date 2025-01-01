@@ -9,6 +9,7 @@ class BookingModel {
   DateTime startTime;
   DateTime finishedTime;
   String location;
+  String province;
   String note;
   String paymentMethod;
   String cardName;
@@ -27,6 +28,7 @@ class BookingModel {
     required this.startTime,
     required this.finishedTime,
     required this.location,
+    required this.province,
     required this.note,
     required this.paymentMethod,
     required this.cardName,
@@ -48,6 +50,7 @@ class BookingModel {
       'startTime': startTime.toIso8601String(),
       'finishedTime': finishedTime.toIso8601String(),
       'location': location,
+      'province': province,
       'note': note,
       'paymentMethod': paymentMethod,
       'cardName': cardName,
@@ -70,6 +73,7 @@ class BookingModel {
       startTime: DateTime.parse(map['startTime']),
       finishedTime: DateTime.parse(map['finishedTime']),
       location: map['location'] ?? '',
+      province: map['province']??'',
       note: map['note'] ?? '',
       paymentMethod: map['paymentMethod'] ?? '',
       cardName: map['cardName'] ?? '',
