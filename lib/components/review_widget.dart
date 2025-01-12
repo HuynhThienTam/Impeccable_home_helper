@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:impeccablehome_helper/components/stars_widget.dart';
 import 'package:impeccablehome_helper/model/review_model.dart';
+import 'package:impeccablehome_helper/model/user_model.dart';
+import 'package:impeccablehome_helper/resources/user_services.dart';
 
-class ReviewWidget extends StatelessWidget {
+class ReviewWidget extends StatefulWidget {
   final ReviewModel review;
 
   const ReviewWidget({
@@ -10,6 +12,37 @@ class ReviewWidget extends StatelessWidget {
     required this.review,
   }) : super(key: key);
 
+  @override
+  State<ReviewWidget> createState() => _ReviewWidgetState();
+}
+
+class _ReviewWidgetState extends State<ReviewWidget> {
+  bool isLoading = true; // State to track loading
+  final UserService userService = UserService();
+  UserModel? user;
+  @override
+  void initState() {
+    super.initState();
+    _fetchUser(); // Fetch user details when the widget is initialized
+  }
+  Future<void> _fetchUser() async {
+    try {
+      final fetchedUser = await userService.fetchUserDetails(widget.review.userId);
+
+      if (fetchedUser != null) {
+        setState(() {
+          user = fetchedUser;
+        });
+      }
+    } catch (e) {
+      // Handle errors (optional)
+      print('Error fetching helper: $e');
+    } finally {
+      setState(() {
+        isLoading = false; // Stop loading once data is fetched
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,11 +53,13 @@ class ReviewWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // User avatar
-            CircleAvatar(
+            isLoading? CircleAvatar(
               radius: 26,
-              backgroundImage: review.profilePic.isNotEmpty
-                  ? NetworkImage(review.profilePic)
-                  : null,
+              backgroundImage: NetworkImage("https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="),
+              backgroundColor: Colors.grey[300],
+            ):CircleAvatar(
+              radius: 26,
+              backgroundImage: NetworkImage(user!.profilePic),
               backgroundColor: Colors.grey[300],
             ),
             const SizedBox(width: 20),
@@ -37,15 +72,15 @@ class ReviewWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        review.userName,
+                      isLoading?Container():Text(
+                         user!.name,
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
                         ),
                       ),
                       Expanded(child: Container(),),
-                      StarsWidget(ratings: review.ratings.toInt()),
+                      StarsWidget(ratings: widget.review.ratings.toInt()),
                       SizedBox(
                         width: 6,
                       ),
@@ -54,16 +89,16 @@ class ReviewWidget extends StatelessWidget {
                   const SizedBox(height: 4),
                   // Review content
                   Text(
-                    review.reviewContent,
+                    widget.review.reviewContent,
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 6),
                   // Review pictures row
-                  if (review.reviewPics.isNotEmpty)
+                  if (widget.review.reviewPics.isNotEmpty)
                     Wrap(
                       spacing: 8.0,
                       runSpacing: 8.0,
-                      children: review.reviewPics.map((picUrl) {
+                      children: widget.review.reviewPics.map((picUrl) {
                         return Image.network(
                           picUrl,
                           width: 60.0,

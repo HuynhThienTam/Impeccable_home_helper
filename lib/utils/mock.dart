@@ -298,40 +298,7 @@ final comment1PicandName = {
   'profilePic': "https://picsum.photos/200",
 };
 
-final List<ReviewModel> mockReviews = [
-    ReviewModel(
-      uid: 'user1',
-      userName: 'Alice',
-      profilePic:
-          'https://picsum.photos/200',
-      ratings: 4.5,
-      reviewContent: 'Great service! Will recommend to others.',
-      reviewPics: [
-        'https://picsum.photos/208',
-        'https://picsum.photos/209',
-      ],
-    ),
-    ReviewModel(
-      uid: 'user2',
-      userName: 'Bob',
-      profilePic:
-          'https://picsum.photos/201',
-      ratings: 3.0,
-      reviewContent: 'Good, but room for improvement.',
-      reviewPics: [],
-    ),
-    ReviewModel(
-      uid: 'user3',
-      userName: 'Charlie',
-      profilePic:
-          'https://picsum.photos/202',
-      ratings: 5.0,
-      reviewContent: 'Amazing experience, very professional!',
-      reviewPics: [
-        'https://picsum.photos/210',
-      ],
-    ),
-  ];
+
 
 
 

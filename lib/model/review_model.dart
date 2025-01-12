@@ -55,17 +55,15 @@
 
 
 class ReviewModel {
-  final String uid;
-  final String userName;
-  final String profilePic;
+  final String userId;
+  final String helperId;
   final double ratings;
   final String reviewContent;
   final List<String> reviewPics;
 
   ReviewModel({
-    required this.uid,
-    required this.userName,
-    required this.profilePic,
+    required this.userId,
+    required this.helperId,
     required this.ratings,
     required this.reviewContent,
     required this.reviewPics,
@@ -73,9 +71,8 @@ class ReviewModel {
 
   factory ReviewModel.fromMap(Map<String, dynamic> map) {
     return ReviewModel(
-      uid: map['uid'] ?? '',
-      userName: map['userName'] ?? 'Unknown User',
-      profilePic: map['profilePic'] ?? '',
+      userId: map['userId'] ?? '',
+      helperId: map['helperId'] ?? 'Unknown User',
       ratings: (map['ratings'] ?? 0.0).toDouble(),
       reviewContent: map['reviewContent'] ?? '',
       reviewPics: List<String>.from(map['reviewPics'] ?? []),
@@ -84,9 +81,8 @@ class ReviewModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'uid': uid,
-      'userName': userName,
-      'profilePic': profilePic,
+      'userId': userId,
+      'helperId': helperId,
       'ratings': ratings,
       'reviewContent': reviewContent,
       'reviewPics': reviewPics,
