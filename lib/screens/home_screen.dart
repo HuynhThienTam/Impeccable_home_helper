@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:impeccablehome_helper/components/avatar_widget.dart';
 import 'package:impeccablehome_helper/components/custom_text_input.dart';
@@ -12,6 +13,7 @@ import 'package:impeccablehome_helper/components/small_button.dart';
 import 'package:impeccablehome_helper/components/weekly_working_time_widget.dart';
 import 'package:impeccablehome_helper/model/helper_model.dart';
 import 'package:impeccablehome_helper/model/review_model.dart';
+import 'package:impeccablehome_helper/resources/authenticatiom_method.dart';
 import 'package:impeccablehome_helper/resources/helper_services.dart';
 import 'package:impeccablehome_helper/resources/review_services.dart';
 import 'package:impeccablehome_helper/utils/color_themes.dart';
@@ -202,8 +204,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
+                      padding:  EdgeInsets.only(top:screenWidth*(1/12), right: screenWidth*(1/20)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: signOut,
+                            child: Image.asset(
+                            "assets/icons/logout_icon.png",
+                            width: 24,
+                            height: 24,
+                                              ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
                       padding: EdgeInsets.only(
-                        top: screenWidth * (1 / 6),
+                        top: screenWidth * (1 / 12),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -513,4 +531,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+  void signOut() {
+    final authMethods =
+        Provider.of<AuthenticationMethods>(context, listen: false);
+      authMethods.userSignOut();
+    }
 }
